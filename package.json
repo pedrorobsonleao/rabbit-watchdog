@@ -1,0 +1,16 @@
+{
+  "name": "rabbit-watchdog",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Pedro Robson Leão <pedro.leao@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start": "node --trace-uncaught --experimental-json-modules --experimental-specifier-resolution=node  index.js"
+  },
+  "dependencies": {
+    "axios": "^0.22.0",
+    "https": "^1.0.0",
+    "minimist": "^1.2.5"
+  }
+}
