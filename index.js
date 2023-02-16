@@ -32,7 +32,7 @@ const toSlack = (data) => {
         .map(d => ({
             title: `${d.vhost}`,
             short: false,
-            value: `${slack.getEmoji(d.messages)} <${rabbit.getUrl()}/#/queues/${(d.vhost === '/') ? '%2F' : d.vhost}/${d.name}|${d.vhost} ${d.name}> 
+            value: `${slack.getEmoji(d.messages)} <${rabbit.url()}/#/queues/${(d.vhost === '/') ? '%2F' : d.vhost}/${d.name}|${d.vhost} ${d.name}> 
 \`\`\`
 idle since: ${d.idle_since}
 messages  : ${d.messages}
@@ -46,16 +46,19 @@ messages  : ${d.messages}
 
 const help = () => {
     console.log(`
-Use: yarn start <options>
+Use: yarn --silent start <options>
 
      Options:
 
-     --url           : RabbitMQ Url
-     --user          : RabbitMQ User
-     --pass          : RabbitMQ Pass
-     --slack_url     : Slack Webhook Notification
-     --slack_channel : Slack Notification Channel
-     --slack_emoji   : Slack Notification Emoji
+     --rabbit.url           : RabbitMQ Url 
+     --rabbit.username      : RabbitMQ Username
+     --rabbit.password      : RabbitMQ Password
+     --rabbit.time_since    : Rabbit Message oldest minutes (default: 10)
+     --rabbit.filter.vhost  : Filter vhost (default: ".*")
+     -- rabbit.filter.queue : Filter vhost (default: ".*")
+     --slack.url            : Slack Webhook Notification
+     --slack.channel        : Slack Notification Channel
+     --slack.emoji          : Slack Notification Emoji (default: ":rabbit:")
     `);
 };
 
@@ -67,24 +70,19 @@ const main = (args) => {
         return;
     }
 
-    rabbit.setUrl(args["url"]);
-    rabbit.setUser(args["user"]);
-    rabbit.setPass(args["pass"]);
-
-    slack.setUrl(args["slack_url"]);
-    slack.setEmoji(args["slack_emoji"]);
-    slack.setChannel(args["slack_channel"]);
+    slack.config(args.slack);
+    rabbit.config(args.rabbit);
 
     try {
         rabbit
             .get()
             .then(toSlack)
-            //.then(console.log)
             .then(slack.send);
     } catch (e) {
         console.error(e);
         help();
     }
+
 }
 
 main(process.argv.slice(2));
