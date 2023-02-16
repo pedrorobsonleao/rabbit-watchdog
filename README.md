@@ -15,11 +15,11 @@ The application read all queues on your Rabbitmq instalattion and get all queues
 ```powershell
  docker run --rm `
     pedrorobsonleao/rabbitwatchdog `
-    --url 'http://yourabbitmq.url.com:15672' `
-    --user 'username' `
-    --pass 'password' `
-    --slack_url 'https://hooks.slack.com/services/zzzzz/XXXXXXXXXX/yyyyyyyy' `
-    --slack_channel 'sandbox'
+    --rabbit.url      'http://yourabbitmq.url.com:15672' `
+    --rabbit.username 'username' `
+    --rabbit.password 'password' `
+    --slack.url       'https://hooks.slack.com/services/zzzzz/XXXXXXXXXX/yyyyyyyy' `
+    --slack.channel   'sandbox'
  ```
 
  ```powershell

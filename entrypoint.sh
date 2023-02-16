@@ -7,11 +7,11 @@ function main() {
  [ ! -z "${SLACK_URL}" ] && \
  [ ! -z "${SLACK_CHANNEL}" ] && {
     yarn --silent start  \
-    --url           "${RABBIT_URL}" \
-    --user          "${RABBIT_USER}" \
-    --pass          "${RABBIT_PWD}" \
-    --slack_url     "${SLACK_URL}" \
-    --slack_channel "${SLACK_CHANNEL}"
+    --rabbit.url      "${RABBIT_URL}" \
+    --rabbit.username "${RABBIT_USER}" \
+    --rabbit.password "${RABBIT_PWD}" \
+    --slack.url       "${SLACK_URL}" \
+    --slack.channel   "${SLACK_CHANNEL}"
   } || {
       yarn --silent start ${@};
   }
