@@ -50,22 +50,24 @@ Use: yarn --silent start <options>
 
      Options:
 
-     --rabbit.url           : RabbitMQ Url 
-     --rabbit.username      : RabbitMQ Username
-     --rabbit.password      : RabbitMQ Password
-     --rabbit.time_since    : Rabbit Message oldest minutes (default: 10)
-     --rabbit.filter.vhost  : Filter vhost (default: ".*")
-     -- rabbit.filter.queue : Filter vhost (default: ".*")
-     --slack.url            : Slack Webhook Notification
-     --slack.channel        : Slack Notification Channel
-     --slack.emoji          : Slack Notification Emoji (default: ":rabbit:")
+     --rabbit.url          : RabbitMQ Url 
+     --rabbit.username     : RabbitMQ Username
+     --rabbit.password     : RabbitMQ Password
+     --rabbit.time_since   : Rabbit Message oldest minutes (default: 10)
+     --rabbit.filter.vhost : Filter vhost (default: ".*")
+     --rabbit.filter.queue : Filter queue (default: ".*")
+     --slack.url           : Slack Webhook Notification
+     --slack.channel       : Slack Notification Channel
+     --slack.emoji         : Slack Notification Emoji (default: ":rabbit:")
     `);
 };
 
 const main = (args) => {
     args = minimist(args);
 
-    if (args["help"]) {
+    if (Object.keys(args).length == 1 && args._.length == 0) args.help=true;
+
+    if (args.help) {
         help();
         return;
     }
