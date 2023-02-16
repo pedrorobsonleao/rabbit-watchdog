@@ -6,7 +6,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "start": "node --trace-uncaught --experimental-json-modules --experimental-specifier-resolution=node  index.js"
+    "start": "node --experimental-json-modules --experimental-specifier-resolution=node --no-warnings index.js"
   },
   "dependencies": {
     "axios": "^0.22.0",

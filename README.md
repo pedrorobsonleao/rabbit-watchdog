@@ -13,21 +13,28 @@ The application read all queues on your Rabbitmq instalattion and get all queues
 ## run
 
 ```powershell
- docker run --rm `
-    pedrorobsonleao/rabbitwatchdog `
-    --url 'http://yourabbitmq.url.com:15672' `
-    --user 'username' `
-    --pass 'password' `
-    --slack_url 'https://hooks.slack.com/services/zzzzz/XXXXXXXXXX/yyyyyyyy' `
-    --slack_channel 'sandbox'
+docker run --rm `
+   pedrorobsonleao/rabbitwatchdog `
+   --rabbit.url http://yourabbitmq.url.com:15672 `
+   --rabbit.username username  `
+   --rabbit.password password `
+   --rabbit.filter.vhost '.+' `
+   --rabbit.filter.queue '.+' `
+   --slack.url https://hooks.slack.com/services/zzzzz/XXXXXXXXXX/yyyyyyyy `
+   --slack.channel sandbox `
+   --slack.emoji :rabbitmq:
  ```
 
- ```powershell
- docker run --rm `
-    -e RABBIT_URL='http://yourabbitmq.url.com:15672' `
-    -e RABBIT_USER='username' `
-    -e RABBIT_PWD='password' `
-    -e SLACK_URL='https://hooks.slack.com/services/zzzzz/XXXXXXXXXX/yyyyyyyy' `
-    -e SLACK_CHANNEL='sandbox' `
-    pedrorobsonleao/rabbitwatchdog
+ ```poweshell
+ docker run --rm  `
+   -e rabbit__url='http://yourabbitmq.url.com:15672' `
+   -e rabbit__username='usename'  `
+   -e rabbit__password='password' `
+   -e rabbit__filter__vhost='.+' `
+   -e rabbit__filter__queue='.+' `
+   -e slack__url='https://hooks.slack.com/services/zzzzz/XXXXXXXXXX/yyyyyyyy' `
+   -e slack__channel='sandbox' `
+   -e slack__emoji=':rabbitmq:' `
+   pedrorobsonleao/rabbitwatchdog
  ```
+ 
