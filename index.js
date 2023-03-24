@@ -4,28 +4,12 @@ import minimist from "minimist";
 import rabbit from "./lib/rabbit";
 import slack from "./lib/slack";
 
-const processRabbit = data => data.map(d => {
-    return {
-        data: {
-            vhost: d.vhost,
-            name: d.name,
-            messages: d.messages,
-            consumers: d.consumers,
-            idle_since: d.idle_since
-        },
-        title: d.vhost,
-        url: `${rabbit.getUrl()}/#/queues/${(d.vhost === '/') ? '%2F' : d.vhost}/${d.name}`
-    }
-});
-
-const processSlack = data => {
-    data.forEach(element => {
-        slack.send(slack.getPayload(element));
-    });
-};
-
 const toSlack = (data) => {
     let payload = slack.getPayload();
+
+    if (data.length === 0) {
+        throw Error("information can't fount in rabbitMQ");
+    }
 
     let fields = data
         .sort((a, b) => (a.messages < b.messages) ? 1 : ((b.messages < a.messages) ? -1 : 0))
@@ -65,7 +49,7 @@ Use: yarn --silent start <options>
 const main = (args) => {
     args = minimist(args);
 
-    if (Object.keys(args).length == 1 && args._.length == 0) args.help=true;
+    if (Object.keys(args).length == 1 && args._.length == 0) args.help = true;
 
     if (args.help) {
         help();
@@ -79,9 +63,10 @@ const main = (args) => {
         rabbit
             .get()
             .then(toSlack)
-            .then(slack.send);
+            .then(slack.send)
+            .catch(e => console.error(e.name, e.message));
     } catch (e) {
-        console.error(e);
+        console.error(e.message);
         help();
     }
 
