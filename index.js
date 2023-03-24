@@ -8,7 +8,7 @@ const toSlack = (data) => {
     let payload = slack.getPayload();
 
     if (data.length === 0) {
-        throw Error("information can't fount in rabbitMQ");
+        throw rabbit.NotFoundException("information can't fount in rabbitMQ");
     }
 
     let fields = data
@@ -64,7 +64,10 @@ const main = (args) => {
             .get()
             .then(toSlack)
             .then(slack.send)
-            .catch(e => console.error(e.name, e.message));
+            .catch(e => (e.name == "RabbitMQNotFoundException") ?
+                            console.log(e.name, e.message):
+                            console.error(e.name, e.message)
+                        );
     } catch (e) {
         console.error(e.message);
         help();
