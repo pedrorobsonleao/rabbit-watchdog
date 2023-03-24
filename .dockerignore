@@ -5,3 +5,7 @@ cronjob.yaml
 README.md
 yarn.lock
 img/
+*.yaml
+*.yml
+*.swp
+script.sh
